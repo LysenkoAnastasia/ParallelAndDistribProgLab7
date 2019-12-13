@@ -10,7 +10,7 @@ public class Broker implements Runnable {
             Socket responder = ctx.createSocket(SocketType.DEALER);
             responder.connect("tcp://localhost:5560");
 
-            while () {
+            while (!Thread.currentThread().isInterrupted()) {
 
             }
     }
