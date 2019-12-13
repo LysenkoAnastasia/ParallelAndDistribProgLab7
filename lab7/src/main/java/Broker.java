@@ -23,15 +23,15 @@ public class Broker implements Runnable {
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
                 if (items.pollin(0)) {
-                    while (true) {
+                    
+                   /* while (true) {
                         message = frontend.recv(0);
                         more = frontend.hasReceiveMore();
                         backend.send(message, more ? ZMQ.SNDMORE : 0);
                         if (!more) {
                             break;
                         }
-
-                    }
+                    }*/
                 }
                 if (items.pollin(1)) {
                     while (true) {
