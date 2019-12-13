@@ -14,7 +14,7 @@ public class Client implements Runnable {
         client.connect("tcp://localhost:5555");
         System.out.println("Setting up test");
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
