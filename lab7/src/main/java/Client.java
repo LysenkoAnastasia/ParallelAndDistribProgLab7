@@ -11,7 +11,6 @@ public class Client implements Closeable {
     int requests;
     long start;
 
-    @Override
     public void run() {
         ZContext context = new ZContext();
         ZMQ.Socket client = context.createSocket(SocketType.DEALER);
