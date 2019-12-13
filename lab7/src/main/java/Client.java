@@ -22,7 +22,9 @@ public class Client implements Closeable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-         long now = System.currentTimeMillis();
+        while (!Thread.currentThread().isInterrupted()) {
+            
+        }
 
 
     }
