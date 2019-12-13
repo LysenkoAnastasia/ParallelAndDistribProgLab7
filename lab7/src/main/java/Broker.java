@@ -6,12 +6,12 @@ public class Broker implements Runnable {
 
     @Override
     public void run() {
-         ZContext ctx = new ZContext();
-            Socket responder = ctx.createSocket(SocketType.DEALER);
-            responder.connect("tcp://localhost:5560");
+        ZContext ctx = new ZContext();
+        Socket responder = ctx.createSocket(SocketType.DEALER);
+        responder.connect("tcp://localhost:5560");
 
-            while (!Thread.currentThread().isInterrupted()) {
-
-            }
+        while (!Thread.currentThread().isInterrupted()) {
+            
+        }
     }
 }
