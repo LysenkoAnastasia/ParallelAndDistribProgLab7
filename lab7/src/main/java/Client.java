@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class Client implements Closeable {
     private static int SAMPLE_SIZE = 10000;
+    ZContext context = new ZContext();
+    ZMQ.Socket socket = context.createSocket(SocketType.REQ);
     int requests;
     long start;
 
