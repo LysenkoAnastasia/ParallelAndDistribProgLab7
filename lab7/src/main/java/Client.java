@@ -4,6 +4,8 @@ import org.zeromq.ZMQ;
 
 public class Client implements Runnable {
     private static int SAMPLE_SIZE = 10000;
+    int requests;
+    long start;
 
     @Override
     public void run() {
@@ -18,6 +20,8 @@ public class Client implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+         long now = System.currentTimeMillis();
+        
 
     }
 }
