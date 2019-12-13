@@ -10,8 +10,8 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
-        ZContext ctx = new ZContext();
-        ZMQ.Socket client = ctx.createSocket(SocketType.DEALER);
+        ZContext context = new ZContext();
+        ZMQ.Socket client = context.createSocket(SocketType.DEALER);
         client.setHWM(0);
         client.setIdentity("C".getBytes(ZMQ.CHARSET));
         client.connect("tcp://localhost:5555");
@@ -36,6 +36,6 @@ public class Client implements Runnable {
              requests++) {
             ZMsg.recvMsg(client).destroy();
         }
-
+        context.destroySocket();
     }
 }
