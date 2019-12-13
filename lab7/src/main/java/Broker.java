@@ -19,7 +19,6 @@ public class Broker implements Runnable {
 
             }
             responder.close();
-            context.term();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
