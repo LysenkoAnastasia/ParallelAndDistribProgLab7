@@ -42,10 +42,8 @@ public class Broker implements Runnable {
                         }
                     }
                 }
-
             }
-
-
+            items.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
