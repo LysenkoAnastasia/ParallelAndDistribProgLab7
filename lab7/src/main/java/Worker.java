@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Worker implements Closeable {
 
-    public void run()  {
+    public static void main(String[] args) {
         ZContext context = new ZContext();
         Socket worker = context.createSocket(SocketType.DEALER);
         worker.setHWM(0);
