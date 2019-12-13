@@ -5,6 +5,6 @@ import org.zeromq.ZMQ.Socket;
 public class Broker {
     ZContext ctx = new ZContext();
     Socket responder = ctx.createSocket(SocketType.DEALER);
-    responder.connect()
+    responder.connect(("tcp://localhost:5560");)
 
 }
