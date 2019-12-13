@@ -8,8 +8,10 @@ public class Broker implements Runnable {
     public void run() {
         try {
             ZContext context = new ZContext();
-            Socket responder = context.createSocket(SocketType.DEALER);
-            responder.connect("tcp://localhost:5560");
+            Socket frontend = context.createSocket(SocketType.ROUTER);
+            Socket backend = context.createSocket(SocketType.DEALER);
+            frontend.bind("tcp://*:5559");
+            backend.bind("tcp://*:5560");
 
             while (!Thread.currentThread().isInterrupted()) {
                 ZMQ.Poller items = context.createPoller(2);
