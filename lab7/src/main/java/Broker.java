@@ -12,6 +12,7 @@ public class Broker implements Runnable {
             Socket backend = context.createSocket(SocketType.DEALER);
             frontend.bind("tcp://*:5559");
             backend.bind("tcp://*:5560");
+            System.out.println("launch and connect broker.");
 
             while (!Thread.currentThread().isInterrupted()) {
                 ZMQ.Poller items = context.createPoller(2);
