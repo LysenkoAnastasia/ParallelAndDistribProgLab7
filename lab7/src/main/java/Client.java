@@ -17,7 +17,6 @@ public class Client implements Closeable {
         socket.setHWM(0);
         socket.setIdentity("C".getBytes(ZMQ.CHARSET));
         socket.connect("tcp://localhost:5555");
-        System.out.println("Setting up test");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
