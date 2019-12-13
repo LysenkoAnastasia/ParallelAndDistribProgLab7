@@ -30,5 +30,12 @@ public class Client implements Runnable {
             req.send(client);
         }
 
+        for (requests = 0;
+             requests < SAMPLE_SIZE && !Thread.currentThread()
+                     .isInterrupted();
+             requests++) {
+            ZMsg.recvMsg(client).destroy();
+        }
+
     }
 }
