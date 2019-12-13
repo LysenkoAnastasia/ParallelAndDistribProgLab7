@@ -24,7 +24,9 @@ public class Client implements Runnable {
         start = System.currentTimeMillis();
 
         for (requests = 0; requests < SAMPLE_SIZE; requests++) {
-            
+            ZMsg req = new ZMsg();
+            req.addString("client");
+            req.send(client);
         }
 
     }
