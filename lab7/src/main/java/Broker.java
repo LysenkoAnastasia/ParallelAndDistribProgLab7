@@ -14,10 +14,10 @@ public class Broker implements Runnable {
             backend.bind("tcp://*:5560");
             System.out.println("launch and connect broker.");
             ZMQ.Poller items = context.createPoller(2);
+            items.register(frontend, ZMQ.Poller.POLLIN);
+            items.register(backend, ZMQ.Poller.POLLIN);
 
             while (!Thread.currentThread().isInterrupted()) {
-                items.register(frontend, ZMQ.Poller.POLLIN);
-                items.register(backend, ZMQ.Poller.POLLIN);
                 items.poll();
                 if (items.pollin(0)) {
                     ZMsg msg = ZMsg.recvMsg(frontend);
