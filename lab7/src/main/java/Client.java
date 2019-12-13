@@ -13,5 +13,11 @@ public class Client implements Runnable {
         client.setIdentity("C".getBytes(ZMQ.CHARSET));
         client.connect("tcp://localhost:5555");
         System.out.println("Setting up test");
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }
