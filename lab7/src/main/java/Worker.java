@@ -4,9 +4,11 @@ import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 import org.zeromq.ZMsg;
 
-public class Worker implements Runnable{
+import java.io.Closeable;
+import java.io.IOException;
 
-    @Override
+public class Worker implements Closeable {
+
     public void run()  {
         ZContext context = new ZContext();
         Socket worker = context.createSocket(SocketType.DEALER);
@@ -18,5 +20,10 @@ public class Worker implements Runnable{
             ZMsg msg = ZMsg.recvMsg(worker);
             msg.send(worker);
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+
     }
 }
