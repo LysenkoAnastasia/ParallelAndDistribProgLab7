@@ -9,7 +9,7 @@ public class Broker implements Runnable {
         try {
             ZContext context = new ZContext();
             Socket frontend = context.createSocket(SocketType.ROUTER);
-            Socket backend = context.createSocket(SocketType.DEALER);
+            Socket backend = context.createSocket(SocketType.ROUTER);
             frontend.bind("tcp://*:5559");
             backend.bind("tcp://*:5560");
             System.out.println("launch and connect broker.");
@@ -19,6 +19,7 @@ public class Broker implements Runnable {
 
             while (!Thread.currentThread().isInterrupted()) {
                 ZMQ.Poller items = context.createPoller(2);
+                
                 items.register(frontend, ZMQ.Poller.POLLIN);
                 items.register(backend, ZMQ.Poller.POLLIN);
                 items.poll();
