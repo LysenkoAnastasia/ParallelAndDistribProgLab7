@@ -16,7 +16,7 @@ public class Broker implements Runnable {
                 items.register(responder, ZMQ.Poller.POLLIN);
                 Thread.sleep(1000);
                 responder.send ("World");
-
+                items.close();
             }
             responder.close();
         } catch (InterruptedException e) {
