@@ -20,6 +20,7 @@ public class Client implements Closeable {
             e.printStackTrace();
         }
         while (!Thread.currentThread().isInterrupted()) {
+            String
         }
 
 
