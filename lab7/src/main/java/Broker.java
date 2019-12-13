@@ -1,7 +1,6 @@
 import org.zeromq.SocketType;
 import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
-import zmq.poll.Poller;
 
 public class Broker implements Runnable {
 
@@ -15,14 +14,14 @@ public class Broker implements Runnable {
             backend.bind("tcp://*:5560");
             System.out.println("launch and connect broker.");
 
-            Poller items = context.poller (2);
-            items.register(frontend, Poller.POLLIN);
-            items.register(backend, Poller.POLLIN);
+            ZMQ.Poller items = context.createPoller(2);
+            items.register(frontend, ZMQ.Poller.POLLIN);
+            items.register(backend, ZMQ.Poller.POLLIN);
             boolean more = false;
             byte[] message;
 
             while (!Thread.currentThread().isInterrupted()) {
-                Poller items = context.createPoller(2);
+                ZMQ.Poller items = context.createPoller(2);
                 items.register(responder, ZMQ.Poller.POLLIN);
                 Thread.sleep(1000);
                 responder.send ("World");
