@@ -27,15 +27,10 @@ public class Broker implements Runnable {
                     if (msg == null) {
                         break;
                     }
-
-                   /* while (true) {
-                        message = frontend.recv(0);
-                        more = frontend.hasReceiveMore();
-                        backend.send(message, more ? ZMQ.SNDMORE : 0);
-                        if (!more) {
-                            break;
-                        }
-                    }*/
+                    ZFrame address = msg.pop();
+                    address.destroy();
+                    msg.addFirst(new ZFrame("W"));
+                    msg.send(backend);
                 }
                 if (items.pollin(1)) {
                     while (true) {
