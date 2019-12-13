@@ -20,7 +20,7 @@ public class Broker implements Runnable {
             responder.send ("World");
 // We never get here but clean up anyhow
             responder.close();
-            context.term();
+            ctx.term();
         }
     }
 }
