@@ -13,7 +13,7 @@ public class Client implements Closeable {
     int requests;
     long start;
 
-    public void run() {
+    public void main(String[] args) {
         socket.setHWM(0);
         socket.setIdentity("C".getBytes(ZMQ.CHARSET));
         socket.connect("tcp://localhost:5555");
@@ -23,25 +23,12 @@ public class Client implements Closeable {
             e.printStackTrace();
         }
          long now = System.currentTimeMillis();
-        start = System.currentTimeMillis();
 
-        for (requests = 0; requests < SAMPLE_SIZE; requests++) {
-            ZMsg req = new ZMsg();
-            req.addString("client");
-            req.send(socket);
-        }
 
-        for (requests = 0;
-             requests < SAMPLE_SIZE && !Thread.currentThread()
-                     .isInterrupted();
-             requests++) {
-            ZMsg.recvMsg(socket).destroy();
-        }
-        context.destroySocket(socket);
     }
 
     @Override
-    public void close() throws IOException {
-
+    public void close() {
+        context.destroySocket(socket);
     }
 }
