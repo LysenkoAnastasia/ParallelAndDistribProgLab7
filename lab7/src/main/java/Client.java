@@ -2,13 +2,13 @@ import org.zeromq.*;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Client implements Closeable {
     private static int SAMPLE_SIZE = 10000;
     ZContext context = new ZContext();
     ZMQ.Socket socket = context.createSocket(SocketType.REQ);
-    int requests;
-    long start;
+    Scanner in = new Scanner(System.in);
 
     public void main(String[] args) {
         socket.setHWM(0);
