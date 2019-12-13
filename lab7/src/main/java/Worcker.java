@@ -1,5 +1,6 @@
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
+import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
 public class Worcker implements Runnable{
@@ -9,7 +10,8 @@ public class Worcker implements Runnable{
         ZContext context = new ZContext();
         Socket worker = context.createSocket(SocketType.DEALER);
         worker.setHWM(0);
-
+        worker.setIdentity("W".getBytes(ZMQ.CHARSET));
+        worker.connect("tcp://localhost:5556");
 
         while (!Thread.currentThread().isInterrupted()) {
         }
