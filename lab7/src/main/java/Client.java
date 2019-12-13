@@ -3,7 +3,10 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-public class Client implements Runnable {
+import java.io.Closeable;
+import java.io.IOException;
+
+public class Client implements Closeable {
     private static int SAMPLE_SIZE = 10000;
     int requests;
     long start;
@@ -37,5 +40,10 @@ public class Client implements Runnable {
             ZMsg.recvMsg(client).destroy();
         }
         context.destroySocket(client);
+    }
+
+    @Override
+    public void close() throws IOException {
+
     }
 }
