@@ -1,5 +1,4 @@
 import org.zeromq.*;
-import zmq.Command;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -21,7 +20,6 @@ public class Client implements Closeable {
             e.printStackTrace();
         }
         while (!Thread.currentThread().isInterrupted()) {
-            Command command = Command.f
         }
 
 
