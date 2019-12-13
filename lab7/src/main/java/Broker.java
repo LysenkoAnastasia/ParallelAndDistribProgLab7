@@ -21,7 +21,6 @@ public class Broker implements Runnable {
             byte[] message;
 
             while (!Thread.currentThread().isInterrupted()) {
-                ZMQ.Poller items = context.createPoller(2);
                 items.register(responder, ZMQ.Poller.POLLIN);
                 Thread.sleep(1000);
                 responder.send ("World");
