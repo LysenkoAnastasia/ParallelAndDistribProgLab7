@@ -22,7 +22,10 @@ public class Client implements Runnable {
         }
          long now = System.currentTimeMillis();
         start = System.currentTimeMillis();
-        
+
+        for (requests = 0; requests < SAMPLE_SIZE; requests++) {
+            
+        }
 
     }
 }
