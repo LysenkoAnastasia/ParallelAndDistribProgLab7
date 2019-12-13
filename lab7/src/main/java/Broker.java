@@ -11,7 +11,8 @@ public class Broker implements Runnable {
         responder.connect("tcp://localhost:5560");
 
         while (!Thread.currentThread().isInterrupted()) {
-          
+            ZMQ.Poller items = ctx.createPoller(2);
+            items.register(frontend, ZMQ.Poller.POLLIN);
         }
     }
 }
