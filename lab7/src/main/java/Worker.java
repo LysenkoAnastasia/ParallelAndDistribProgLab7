@@ -4,7 +4,7 @@ import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 import org.zeromq.ZMsg;
 
-public class Worcker implements Runnable{
+public class Worker implements Runnable{
 
     @Override
     public void run()  {
