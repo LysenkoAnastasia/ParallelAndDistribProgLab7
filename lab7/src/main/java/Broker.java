@@ -24,6 +24,7 @@ public class Broker implements Runnable {
                     if (msg == null) {
                         break;
                     }
+
                     ZFrame address = msg.pop();
                     address.destroy();
                     msg.addFirst(new ZFrame("W"));
