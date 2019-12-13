@@ -21,6 +21,7 @@ public class Client implements Runnable {
             e.printStackTrace();
         }
          long now = System.currentTimeMillis();
+        start = System.currentTimeMillis();
         
 
     }
