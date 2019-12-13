@@ -1,6 +1,7 @@
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
+import org.zeromq.ZMsg;
 
 public class Client implements Runnable {
     private static int SAMPLE_SIZE = 10000;
