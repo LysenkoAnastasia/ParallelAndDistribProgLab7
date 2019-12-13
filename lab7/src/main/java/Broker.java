@@ -1,10 +1,10 @@
 import org.zeromq.SocketType;
-import org.zeromq.ZContext;
-import org.zeromq.ZMQ;
+import org.zeromq.*;
+import org.zeromq.ZMQ.Socket;
 
 public class Broker {
     ZContext ctx = new ZContext();
-    ZMQ.Socket responder = ctx.createSocket(SocketType.DEALER);
-    responder.connect
+    Socket responder = ctx.createSocket(SocketType.DEALER);
+    responder.bind()
 
 }
