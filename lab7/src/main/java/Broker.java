@@ -12,7 +12,7 @@ public class Broker implements Runnable {
 
         while (!Thread.currentThread().isInterrupted()) {
             ZMQ.Poller items = ctx.createPoller(2);
-            items.register(frontend, ZMQ.Poller.POLLIN);
+            items.register(responder, ZMQ.Poller.POLLIN);
         }
     }
 }
