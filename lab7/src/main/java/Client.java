@@ -36,6 +36,6 @@ public class Client implements Runnable {
              requests++) {
             ZMsg.recvMsg(client).destroy();
         }
-        context.destroySocket();
+        context.destroySocket(client);
     }
 }
