@@ -55,11 +55,11 @@ public class Broker {
                         }
                     }
                 }
-                
+
                 if (items.pollin(1)) {
                     ZMsg msg = ZMsg.recvMsg(backend);
                     if (msg == null)
-                        break; // Interrupted
+                        break;
                     ZFrame address = msg.pop();
                     address.destroy();
                     msg.addFirst(new ZFrame("C"));
