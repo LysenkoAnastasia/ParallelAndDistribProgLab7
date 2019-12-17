@@ -40,8 +40,8 @@ public class Broker {
                     else {
                         String[] data = msg.getLast().toString().split(" ");
                         for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                            ZFrame cache =
-                                    msg.addFirst(new ZFrame("W"));
+                            ZFrame cache = c.getKey().duplicate();
+                            msg.addFirst(cache);
                             msg.send(backend);
                         }
                     }
