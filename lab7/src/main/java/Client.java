@@ -27,8 +27,10 @@ public class Client{
             if (req == null) {
                 break;
             }
+            req.destroy();
 
         }
+        close();
     }
 
     public void close() {
