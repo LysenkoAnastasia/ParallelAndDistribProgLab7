@@ -38,10 +38,12 @@ public class Broker {
                         error.send(frontend);
                     }
                     else {
-                        ZFrame address = msg.pop();
-                        address.destroy();
-                        msg.addFirst(new ZFrame("W"));
-                        msg.send(backend);
+                        String[] data = msg.getLast().toString().split(" ");
+                        for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+                            ZFrame cache =
+                                    msg.addFirst(new ZFrame("W"));
+                            msg.send(backend);
+                        }
                     }
                 }
                 if (items.pollin(1)) {
