@@ -14,6 +14,16 @@ public class Client{
         socket.setHWM(0);
         socket.setIdentity("C".getBytes(ZMQ.CHARSET));
         socket.connect("tcp://localhost:5555");
+        for(;;) {
+            ZMsg msg = new ZMsg();
+            msg.send(socket);
+
+            ZMsg req = ZMsg.recvMsg(socket);
+            if (req == null) {
+                break;
+            }
+            
+        }
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -24,7 +34,7 @@ public class Client{
 
         }
     }
-    
+
     public void close() {
         context.destroySocket(socket);
     }
