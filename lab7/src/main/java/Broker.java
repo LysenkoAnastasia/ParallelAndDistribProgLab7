@@ -2,16 +2,17 @@ import org.zeromq.SocketType;
 import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
 
-public class Broker implements Runnable {
+public class Broker {
 
-    @Override
-    public void run() {
+    Map<ZFrame, currentThread()>
+
+    public static void main(String[] args) {
         try {
             ZContext context = new ZContext();
             Socket frontend = context.createSocket(SocketType.ROUTER);
             Socket backend = context.createSocket(SocketType.ROUTER);
-            frontend.bind("tcp://*:5559");
-            backend.bind("tcp://*:5560");
+            frontend.bind("tcp://localhost:5559");
+            backend.bind("tcp://localhost:5560");
             System.out.println("launch and connect broker.");
             ZMQ.Poller items = context.createPoller(2);
             items.register(frontend, ZMQ.Poller.POLLIN);
