@@ -15,11 +15,10 @@ public class Worker implements Closeable {
         worker.setHWM(0);
         worker.setIdentity("W".getBytes(ZMQ.CHARSET));
         worker.connect("tcp://localhost:5556");
+        ZMQ.Poller items = context.createPoller(1);
 
         while (!Thread.currentThread().isInterrupted()) {
-            
-            ZMsg msg = ZMsg.recvMsg(worker);
-            msg.send(worker);
+            items.poll();
         }
     }
 
