@@ -55,6 +55,7 @@ public class Broker {
                         }
                     }
                 }
+                
                 if (items.pollin(1)) {
                     ZMsg msg = ZMsg.recvMsg(backend);
                     if (msg == null)
