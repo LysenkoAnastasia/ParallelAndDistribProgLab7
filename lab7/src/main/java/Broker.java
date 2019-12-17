@@ -2,9 +2,12 @@ import org.zeromq.SocketType;
 import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Broker {
 
-    Map<ZFrame, ,Commutator>
+    HashMap<ZFrame, Commutator> commutator;
 
     public static void main(String[] args) {
         try {
