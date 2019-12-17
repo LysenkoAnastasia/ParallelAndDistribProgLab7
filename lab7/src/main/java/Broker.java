@@ -15,6 +15,8 @@ public class Broker {
             ZContext context = new ZContext();
             Socket frontend = context.createSocket(SocketType.ROUTER);
             Socket backend = context.createSocket(SocketType.ROUTER);
+            frontend.setHWM(0);
+            backend.setHWM(0);
             frontend.bind("tcp://localhost:5559");
             backend.bind("tcp://localhost:5560");
             System.out.println("launch and connect broker.");
