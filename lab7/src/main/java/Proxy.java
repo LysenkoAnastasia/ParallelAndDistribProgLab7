@@ -5,7 +5,7 @@ import org.zeromq.ZMQ.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Broker {
+public class Proxy {
 
     public static void main(String[] args) {
         HashMap<ZFrame, Commutator> commutator = new HashMap<>();
