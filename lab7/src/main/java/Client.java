@@ -4,7 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Client implements Closeable {
+public class Client{
     private static int SAMPLE_SIZE = 10000;
     ZContext context = new ZContext();
     ZMQ.Socket socket = context.createSocket(SocketType.REQ);
@@ -24,8 +24,7 @@ public class Client implements Closeable {
 
         }
     }
-
-    @Override
+    
     public void close() {
         context.destroySocket(socket);
     }
