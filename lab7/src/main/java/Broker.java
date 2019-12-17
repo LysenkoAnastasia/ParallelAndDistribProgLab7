@@ -47,7 +47,11 @@ public class Broker {
                             }
                         }
                         else {
-
+                            for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+                                ZFrame cache = c.getKey().duplicate();
+                                msg.addFirst(cache);
+                                msg.send(backend);
+                            }
                         }
                     }
                 }
