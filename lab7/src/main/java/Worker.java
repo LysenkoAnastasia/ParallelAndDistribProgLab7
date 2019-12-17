@@ -17,6 +17,7 @@ public class Worker implements Closeable {
         worker.connect("tcp://localhost:5556");
 
         while (!Thread.currentThread().isInterrupted()) {
+            
             ZMsg msg = ZMsg.recvMsg(worker);
             msg.send(worker);
         }
