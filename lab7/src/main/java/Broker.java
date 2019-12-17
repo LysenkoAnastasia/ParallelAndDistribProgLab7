@@ -39,10 +39,15 @@ public class Broker {
                     }
                     else {
                         String[] data = msg.getLast().toString().split(" ");
-                        for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                            ZFrame cache = c.getKey().duplicate();
-                            msg.addFirst(cache);
-                            msg.send(backend);
+                        if (data[0].equals("Get")) {
+                            for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+                                ZFrame cache = c.getKey().duplicate();
+                                msg.addFirst(cache);
+                                msg.send(backend);
+                            }
+                        }
+                        else {
+
                         }
                     }
                 }
