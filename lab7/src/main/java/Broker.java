@@ -7,10 +7,8 @@ import java.util.Map;
 
 public class Broker {
 
-    private HashMap<ZFrame, Commutator> commutator;
-
-
     public static void main(String[] args) {
+        HashMap<ZFrame, Commutator> commutator = new HashMap<>();
         try {
             ZContext context = new ZContext();
             Socket frontend = context.createSocket(SocketType.ROUTER);
@@ -34,10 +32,17 @@ public class Broker {
                         break;
                     }
 
-                    ZFrame address = msg.pop();
-                    address.destroy();
-                    msg.addFirst(new ZFrame("W"));
-                    msg.send(backend);
+                    if (commutator.isEmpty()) {
+                        ZMsg error = new ZMsg();
+                        error.add(msg.getFirst());
+                        error.send(frontend);
+                    }
+                    else {
+                        ZFrame address = msg.pop();
+                        address.destroy();
+                        msg.addFirst(new ZFrame("W"));
+                        msg.send(backend);
+                    }
                 }
                 if (items.pollin(1)) {
                     ZMsg msg = ZMsg.recvMsg(backend);
