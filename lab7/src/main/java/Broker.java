@@ -7,7 +7,8 @@ import java.util.Map;
 
 public class Broker {
 
-    HashMap<ZFrame, Commutator> commutator;
+    private HashMap<ZFrame, Commutator> commutator;
+
 
     public static void main(String[] args) {
         try {
@@ -20,6 +21,8 @@ public class Broker {
             ZMQ.Poller items = context.createPoller(2);
             items.register(frontend, ZMQ.Poller.POLLIN);
             items.register(backend, ZMQ.Poller.POLLIN);
+
+            long time = System.currentTimeMillis();
 
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
