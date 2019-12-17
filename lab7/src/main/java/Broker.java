@@ -4,7 +4,7 @@ import org.zeromq.ZMQ.Socket;
 
 public class Broker {
 
-    Map<ZFrame, currentThread()>
+    Map<ZFrame, CacheCommutator,>
 
     public static void main(String[] args) {
         try {
