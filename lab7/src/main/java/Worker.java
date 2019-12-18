@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Worker {
-    private static ZContext context = new ZContext();
+    private static ZContext context;
     private static Scanner in = new Scanner(System.in);
     private static int leftBound;
     private static int rightBound;
@@ -25,6 +25,7 @@ public class Worker {
             cache.put(i, Integer.toString(i));
         }
 
+        context = new ZContext();
         Socket worker = context.createSocket(SocketType.DEALER);
         worker.setHWM(0);
         worker.setIdentity("W".getBytes(ZMQ.CHARSET));

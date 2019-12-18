@@ -7,13 +7,14 @@ import java.util.HashMap;
 
 public class Proxy {
 
-    private  static ZContext context = new ZContext();
+    private  static ZContext context;
     private static long time = System.currentTimeMillis();
     private static HashMap<ZFrame, Commutator> commutator = new HashMap<>();
 
     public static void main(String[] args) {
 
         try {
+            context = new ZContext();
             Socket frontend = context.createSocket(SocketType.ROUTER);
             Socket backend = context.createSocket(SocketType.ROUTER);
             frontend.setHWM(0);
