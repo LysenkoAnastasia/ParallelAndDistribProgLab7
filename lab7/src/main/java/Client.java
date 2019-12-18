@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 public class Client{
     private static int SAMPLE_SIZE = 10000;
-    ZContext context;
-    ZMQ.Socket socket = context.createSocket(SocketType.REQ);
-    Scanner in = new Scanner(System.in);
+    private  static ZContext context;
+    private  static  ZMQ.Socket socket = context.createSocket(SocketType.REQ);
+    private static Scanner in = new Scanner(System.in);
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         try {
             context = new ZContext();
             socket.setHWM(0);
@@ -43,10 +43,5 @@ public class Client{
         } catch (ZMQException ex) {
             ex.printStackTrace();
         }
-        close();
-    }
-
-    public void close() {
-        context.destroySocket(socket);
     }
 }
