@@ -105,9 +105,12 @@ public class Proxy {
     }
 
     private static void pollin1(Socket frontend, Socket backend, ZMsg msg){
-        ZFrame address = msg.pop();
-        address.destroy();
-        msg.addFirst(new ZFrame("C"));
-        msg.send(frontend);
+        if (!commutator.containsKey(msg.getFirst())) {
+            ZFrame data = msg.getLast();
+            String[] fields = data.toString().split(" ");
+            Commutator com = new Commutator()
+            msg.addFirst(new ZFrame("C"));
+            msg.send(frontend);
+        }
     }
 }
