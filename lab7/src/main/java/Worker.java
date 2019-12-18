@@ -55,11 +55,10 @@ public class Worker {
                         msg.addLast(value);
                         msg.send(worker);
                     }
-                    if (contentArr[0].equals("GET")) {
+                    if (contentArr[0].equals("PUT")) {
                         int pos = Integer.parseInt(contentArr[1]);
-                        String value = cache.get(pos);
-                        msg.pollLast();
-                        msg.addLast(value);
+                        String swap = contentArr[2];
+                        cache.put(pos, swap);
                         msg.send(worker);
                     }
 
