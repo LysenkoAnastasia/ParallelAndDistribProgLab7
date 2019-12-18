@@ -1,8 +1,5 @@
-import org.zeromq.SocketType;
-import org.zeromq.ZContext;
-import org.zeromq.ZMQ;
+import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
-import org.zeromq.ZMsg;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -46,7 +43,13 @@ public class Worker {
                             rightBound);
                     message.send(worker);
                 }
-                
+                if (items.pollin(0)) {
+                    ZMsg msg = ZMsg.recvMsg(worker);
+                    ZFrame content = msg.getLast();
+                    String[] contentArr = content.toString().split(" ");
+
+                    
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
