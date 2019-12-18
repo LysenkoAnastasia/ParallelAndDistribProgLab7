@@ -46,10 +46,7 @@ public class Proxy {
                     ZMsg msg = ZMsg.recvMsg(backend);
                     if (msg == null)
                         break;
-                    ZFrame address = msg.pop();
-                    address.destroy();
-                    msg.addFirst(new ZFrame("C"));
-                    msg.send(frontend);
+                    pollin1(frontend, backend, msg);
                 }
                 items.close();
             }
@@ -105,5 +102,12 @@ public class Proxy {
                 }
             }
         }
+    }
+
+    private static void pollin1(Socket frontend, Socket backend, ZMsg msg){
+        ZFrame address = msg.pop();
+        address.destroy();
+        msg.addFirst(new ZFrame("C"));
+        msg.send(frontend);
     }
 }
