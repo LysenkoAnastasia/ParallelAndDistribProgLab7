@@ -34,7 +34,8 @@ public class Client{
                 msg.popString();
                 req.destroy();
             }
-        }catch ()
+        }catch (ZMQException ex) {
+            
         }
         close();
     }
