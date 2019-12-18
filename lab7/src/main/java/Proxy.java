@@ -28,7 +28,9 @@ public class Proxy {
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
                 if (!commutator.isEmpty() && (System.currentTimeMillis()-time )> 5000) {
-                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator();)
+                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext()) {
+                        
+                    }
 
                 }
                 if (items.pollin(0)) {
