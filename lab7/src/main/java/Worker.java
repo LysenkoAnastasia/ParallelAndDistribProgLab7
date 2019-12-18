@@ -7,10 +7,11 @@ import org.zeromq.ZMsg;
 import java.io.Closeable;
 import java.io.IOException;
 
-public class Worker implements Closeable {
+public class Worker {
+    private static ZContext context = new ZContext();
 
     public static void main(String[] args) {
-        ZContext context = new ZContext();
+
         Socket worker = context.createSocket(SocketType.DEALER);
         worker.setHWM(0);
         worker.setIdentity("W".getBytes(ZMQ.CHARSET));
@@ -21,8 +22,7 @@ public class Worker implements Closeable {
             items.poll();
         }
     }
-
-    @Override
+    
     public void close() {
     }
 }
