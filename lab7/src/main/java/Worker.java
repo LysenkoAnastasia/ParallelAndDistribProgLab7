@@ -54,7 +54,8 @@ public class Worker {
                         msg.pollLast();
                         msg.addLast(value);
                         msg.send(worker);
-
+                    }
+                    
                 }
             }
         } catch (Exception e) {
