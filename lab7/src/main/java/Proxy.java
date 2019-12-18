@@ -28,8 +28,8 @@ public class Proxy {
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
                 if (!commutator.isEmpty() && (System.currentTimeMillis()-time )> 5000) {
-                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext()) {
-                        
+                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
+                        Map.Entry<ZFrame, Commutator> entry = it.next();
                     }
 
                 }
@@ -78,5 +78,8 @@ public class Proxy {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        pri
     }
 }
