@@ -12,7 +12,7 @@ public class Client{
         try {
             context = new ZContext();
             socket.setHWM(0);
-            socket.setIdentity("C".getBytes(ZMQ.CHARSET));
+            //socket.setIdentity("C".getBytes(ZMQ.CHARSET));
             socket.connect("tcp://localhost:5555");
             while (true) {
                 String message = in.nextLine();
