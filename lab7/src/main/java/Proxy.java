@@ -96,6 +96,13 @@ public class Proxy {
                         }
                     }
                 }
+                else {
+                    ZMsg error = new ZMsg();
+                    error.add(msg.getFirst());
+                    error.add("");
+                    error.send(frontend);
+
+                }
             }
         }
     }
