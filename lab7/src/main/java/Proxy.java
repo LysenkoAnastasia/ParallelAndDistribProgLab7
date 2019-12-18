@@ -105,7 +105,7 @@ public class Proxy {
     }
 
     private static void pollin1(Socket frontend, Socket backend, ZMsg msg){
-        if (msg.getLast().toString().contains("")) {
+        if (msg.getLast().toString().contains("Heartbleed")) {
             if (!commutator.containsKey(msg.getFirst())) {
                 ZFrame data = msg.getLast();
                 String[] fields = data.toString().split(" ");
@@ -114,6 +114,9 @@ public class Proxy {
             } else {
                 commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
             }
+        } else {
+            msg.pop();
+            msg.send(frontend);
         }
 
     }
