@@ -46,6 +46,7 @@ public class Worker {
                             rightBound);
                     message.send(worker);
                 }
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
