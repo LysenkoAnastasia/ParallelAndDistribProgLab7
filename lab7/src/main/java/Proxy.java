@@ -74,11 +74,12 @@ public class Proxy {
         if (commutator.isEmpty()) {
             ZMsg error = new ZMsg();
             error.add(msg.getFirst());
+            error.add("No current");
             error.send(frontend);
         }
         else {
             String[] data = msg.getLast().toString().split(" ");
-            if (data[0].equals("Get")) {
+            if (data[0].equals("GET")) {
                 for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
                     ZFrame cache = c.getKey().duplicate();
                     msg.addFirst(cache);
