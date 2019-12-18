@@ -41,7 +41,10 @@ public class Worker {
 
                 if(System.currentTimeMillis() - time > 5000) {
                     ZMsg message = new ZMsg();
-                    message.addLast("");
+                    message.addLast("Heartbleed" + " " +
+                            leftBound + " " +
+                            rightBound);
+                    message.send(worker);
                 }
             }
         } catch (Exception e) {
