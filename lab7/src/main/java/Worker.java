@@ -20,6 +20,11 @@ public class Worker {
 
         leftBound = in.nextInt();
         rightBound = in.nextInt();
+
+        for(int i = leftBound; i <= rightBound; i++) {
+            cache.put(i, Integer.toString(i));
+        }
+
         Socket worker = context.createSocket(SocketType.DEALER);
         worker.setHWM(0);
         worker.setIdentity("W".getBytes(ZMQ.CHARSET));
