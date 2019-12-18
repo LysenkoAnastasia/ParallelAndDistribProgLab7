@@ -32,34 +32,14 @@ public class Proxy {
                 if (!commutator.isEmpty() && (System.currentTimeMillis()-time )> 5000) {
                     remove();
                 }
+                time = System.currentTimeMillis();
+
                 if (items.pollin(0)) {
                     ZMsg msg = ZMsg.recvMsg(frontend);
                     if (msg == null) {
                         break;
                     }
-
-                    if (commutator.isEmpty()) {
-                        ZMsg error = new ZMsg();
-                        error.add(msg.getFirst());
-                        error.send(frontend);
-                    }
-                    else {
-                        String[] data = msg.getLast().toString().split(" ");
-                        if (data[0].equals("Get")) {
-                            for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                                ZFrame cache = c.getKey().duplicate();
-                                msg.addFirst(cache);
-                                msg.send(backend);
-                            }
-                        }
-                        else {
-                            for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                                ZFrame cache = c.getKey().duplicate();
-                                msg.addFirst(cache);
-                                msg.send(backend);
-                            }
-                        }
-                    }
+                    pollin0(frontend, backend, msg);
                 }
 
                 if (items.pollin(1)) {
@@ -81,10 +61,37 @@ public class Proxy {
     }
 
     private static void remove() {
-        for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
+        commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
+        /*for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
             Map.Entry<ZFrame, Commutator> entry = it.next();
+            if (Math.abs(entry.getValue().getTime() - time) > 5000*2) {
+                it.remove();
+            }
+        }*/
+    }
 
+    private static void pollin0(Socket frontend, Socket backend, ZMsg msg) {
+        if (commutator.isEmpty()) {
+            ZMsg error = new ZMsg();
+            error.add(msg.getFirst());
+            error.send(frontend);
         }
-
+        else {
+            String[] data = msg.getLast().toString().split(" ");
+            if (data[0].equals("Get")) {
+                for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+                    ZFrame cache = c.getKey().duplicate();
+                    msg.addFirst(cache);
+                    msg.send(backend);
+                }
+            }
+            else {
+                for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+                    ZFrame cache = c.getKey().duplicate();
+                    msg.addFirst(cache);
+                    msg.send(backend);
+                }
+            }
+        }
     }
 }
