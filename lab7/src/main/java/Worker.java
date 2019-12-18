@@ -15,6 +15,7 @@ public class Worker {
     private static int leftBound;
     private static int rightBound;
     private static HashMap<Integer, String> cache = new HashMap<>();
+    private static long time;
 
     public static void main(String[] args) {
 
@@ -32,9 +33,12 @@ public class Worker {
             worker.setIdentity("W".getBytes(ZMQ.CHARSET));
             worker.connect("tcp://localhost:5556");
             ZMQ.Poller items = context.createPoller(1);
+            items.register(worker, ZMQ.Poller.POLLIN);
+            time = System.currentTimeMillis();
 
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
