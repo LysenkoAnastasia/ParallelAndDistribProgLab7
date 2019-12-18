@@ -6,12 +6,20 @@ import org.zeromq.ZMsg;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class Worker {
     private static ZContext context = new ZContext();
+    private static Scanner in = new Scanner(System.in);
+    private static int leftBound;
+    private static int rightBound;
+    private static HashMap<Integer, String> cache = new HashMap<>();
 
     public static void main(String[] args) {
 
+        leftBound = in.nextInt();
+        rightBound = in.nextInt();
         Socket worker = context.createSocket(SocketType.DEALER);
         worker.setHWM(0);
         worker.setIdentity("W".getBytes(ZMQ.CHARSET));
