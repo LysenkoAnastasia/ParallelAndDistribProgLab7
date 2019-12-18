@@ -1,6 +1,7 @@
 import org.zeromq.SocketType;
 import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
+import sun.net.sdp.SdpSupport;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,10 +9,13 @@ import java.util.Map;
 
 public class Proxy {
 
+    private  static ZContext context = new ZContext();
+    private static long time = System.currentTimeMillis();
+    private static HashMap<ZFrame, Commutator> commutator = new HashMap<>();
+
     public static void main(String[] args) {
-        HashMap<ZFrame, Commutator> commutator = new HashMap<>();
+
         try {
-            ZContext context = new ZContext();
             Socket frontend = context.createSocket(SocketType.ROUTER);
             Socket backend = context.createSocket(SocketType.ROUTER);
             frontend.setHWM(0);
@@ -23,15 +27,10 @@ public class Proxy {
             items.register(frontend, ZMQ.Poller.POLLIN);
             items.register(backend, ZMQ.Poller.POLLIN);
 
-            long time = System.currentTimeMillis();
-
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
                 if (!commutator.isEmpty() && (System.currentTimeMillis()-time )> 5000) {
-                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
-                        Map.Entry<ZFrame, Commutator> entry = it.next();
-                    }
-
+                    remove();
                 }
                 if (items.pollin(0)) {
                     ZMsg msg = ZMsg.recvMsg(frontend);
@@ -79,7 +78,13 @@ public class Proxy {
             e.printStackTrace();
         }
 
+    }
 
-        pri
+    private static void remove() {
+        for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
+            Map.Entry<ZFrame, Commutator> entry = it.next();
+            if (Math.abs())
+        }
+
     }
 }
