@@ -83,7 +83,7 @@ public class Proxy {
     private static void remove() {
         for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
             Map.Entry<ZFrame, Commutator> entry = it.next();
-            if (Math.abs())
+            if (Math.abs(entry.getValue()))
         }
 
     }
