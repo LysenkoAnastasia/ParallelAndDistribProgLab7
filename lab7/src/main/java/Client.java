@@ -11,28 +11,30 @@ public class Client{
     Scanner in = new Scanner(System.in);
 
     public void main(String[] args) {
-        socket.setHWM(0);
-        socket.setIdentity("C".getBytes(ZMQ.CHARSET));
-        socket.connect("tcp://localhost:5555");
-        while (true) {
-            String message = in.nextLine();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            socket.setHWM(0);
+            socket.setIdentity("C".getBytes(ZMQ.CHARSET));
+            socket.connect("tcp://localhost:5555");
+            while (true) {
+                String message = in.nextLine();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ZMsg msg = new ZMsg();
+                msg.addString(message);
+                msg.send(socket);
+
+                ZMsg req = ZMsg.recvMsg(socket);
+                if (req == null) {
+                    break;
+                }
+
+                msg.popString();
+                req.destroy();
             }
-            ZMsg msg = new ZMsg();
-            msg.addString(message);
-            msg.send(socket);
-
-            ZMsg req = ZMsg.recvMsg(socket);
-            if (req == null) {
-                break;
-            }
-
-            msg.popString();
-            req.destroy();
-
+        }catch ()
         }
         close();
     }
