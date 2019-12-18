@@ -105,14 +105,15 @@ public class Proxy {
     }
 
     private static void pollin1(Socket frontend, Socket backend, ZMsg msg){
-        if (!commutator.containsKey(msg.getFirst())) {
-            ZFrame data = msg.getLast();
-            String[] fields = data.toString().split(" ");
-            Commutator com = new Commutator(fields[1], fields[2], System.currentTimeMillis());
-            commutator.put(msg.getFirst().duplicate(), com);
-        }
-        else {
-            commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
+        if (msg.getLast().toString().contains("")) {
+            if (!commutator.containsKey(msg.getFirst())) {
+                ZFrame data = msg.getLast();
+                String[] fields = data.toString().split(" ");
+                Commutator com = new Commutator(fields[1], fields[2], System.currentTimeMillis());
+                commutator.put(msg.getFirst().duplicate(), com);
+            } else {
+                commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
+            }
         }
 
     }
