@@ -29,7 +29,8 @@ public class Client{
             if (req == null) {
                 break;
             }
-            
+
+            msg.popString();
             req.destroy();
 
         }
