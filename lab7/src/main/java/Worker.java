@@ -55,7 +55,14 @@ public class Worker {
                         msg.addLast(value);
                         msg.send(worker);
                     }
-                    
+                    if (contentArr[0].equals("GET")) {
+                        int pos = Integer.parseInt(contentArr[1]);
+                        String value = cache.get(pos);
+                        msg.pollLast();
+                        msg.addLast(value);
+                        msg.send(worker);
+                    }
+
                 }
             }
         } catch (Exception e) {
