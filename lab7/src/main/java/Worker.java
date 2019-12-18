@@ -22,7 +22,7 @@ public class Worker {
             items.poll();
         }
     }
-    
+
     public void close() {
     }
 }
