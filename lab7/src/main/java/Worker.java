@@ -21,19 +21,23 @@ public class Worker {
         leftBound = in.nextInt();
         rightBound = in.nextInt();
 
-        for(int i = leftBound; i <= rightBound; i++) {
+        for (int i = leftBound; i <= rightBound; i++) {
             cache.put(i, Integer.toString(i));
         }
 
-        context = new ZContext();
-        Socket worker = context.createSocket(SocketType.DEALER);
-        worker.setHWM(0);
-        worker.setIdentity("W".getBytes(ZMQ.CHARSET));
-        worker.connect("tcp://localhost:5556");
-        ZMQ.Poller items = context.createPoller(1);
+        try {
+            context = new ZContext();
+            Socket worker = context.createSocket(SocketType.DEALER);
+            worker.setHWM(0);
+            worker.setIdentity("W".getBytes(ZMQ.CHARSET));
+            worker.connect("tcp://localhost:5556");
+            ZMQ.Poller items = context.createPoller(1);
 
-        while (!Thread.currentThread().isInterrupted()) {
-            items.poll();
+            while (!Thread.currentThread().isInterrupted()) {
+                items.poll();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
