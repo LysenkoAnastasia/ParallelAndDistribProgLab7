@@ -38,7 +38,11 @@ public class Worker {
 
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
-                
+
+                if(System.currentTimeMillis() - time > 5000) {
+                    ZMsg message = new ZMsg();
+                    message.addLast("");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
