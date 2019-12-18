@@ -108,7 +108,7 @@ public class Proxy {
         if (!commutator.containsKey(msg.getFirst())) {
             ZFrame data = msg.getLast();
             String[] fields = data.toString().split(" ");
-            Commutator com = new Commutator()
+            Commutator com = new Commutator(fields[0], fields[1], )
             msg.addFirst(new ZFrame("C"));
             msg.send(frontend);
         }
