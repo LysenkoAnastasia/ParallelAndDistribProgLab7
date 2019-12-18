@@ -21,6 +21,11 @@ public class Commutator {
         return time;
     }
 
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     public boolean intersect(String v) {
         return  Integer.parseInt(leftBound) <= Integer.parseInt(v) && Integer.parseInt(v) <= Integer.parseInt(rightBound);
     }
