@@ -36,7 +36,6 @@ public class Client{
                 }
                 else  {
                     System.out.println("incorrect");
-                    break;
                 }
             }
 
