@@ -1,7 +1,6 @@
 import org.zeromq.SocketType;
 import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
-import sun.net.sdp.SdpSupport;
 
 import java.util.HashMap;
 
