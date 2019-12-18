@@ -3,6 +3,7 @@ import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Proxy {
@@ -26,6 +27,10 @@ public class Proxy {
 
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll();
+                if (!commutator.isEmpty() && (System.currentTimeMillis()-time )> 5000) {
+                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator();)
+
+                }
                 if (items.pollin(0)) {
                     ZMsg msg = ZMsg.recvMsg(frontend);
                     if (msg == null) {
