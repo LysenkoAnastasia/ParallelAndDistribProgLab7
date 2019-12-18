@@ -5,12 +5,13 @@ import java.util.Scanner;
 public class Client{
     private static int SAMPLE_SIZE = 10000;
     private  static ZContext context;
-    private  static  ZMQ.Socket socket = context.createSocket(SocketType.REQ);
+    private  static  ZMQ.Socket socket;
     private static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
         try {
             context = new ZContext();
+            socket = context.createSocket(SocketType.REQ);
             socket.setHWM(0);
             //socket.setIdentity("C".getBytes(ZMQ.CHARSET));
             socket.connect("tcp://localhost:5555");
