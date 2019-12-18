@@ -22,18 +22,24 @@ public class Client{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                ZMsg msg = new ZMsg();
-                msg.addString(message);
-                msg.send(socket);
+                if (message.contains("GET") || message.contains("PUT")) {
+                    ZMsg msg = new ZMsg();
+                    msg.addString(message);
+                    msg.send(socket);
 
-                ZMsg req = ZMsg.recvMsg(socket);
-                if (req == null) {
+                    ZMsg req = ZMsg.recvMsg(socket);
+                    if (req == null) {
+                        break;
+                    }
+                    msg.popString();
+                    req.destroy();
+                }
+                else  {
+                    System.out.println("incorrect");
                     break;
                 }
-
-                msg.popString();
-                req.destroy();
             }
+
         } catch (ZMQException ex) {
             ex.printStackTrace();
         }
