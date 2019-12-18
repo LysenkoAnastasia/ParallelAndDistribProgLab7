@@ -20,4 +20,8 @@ public class Commutator {
     public long getTime() {
         return time;
     }
+
+    public boolean intersect(String v) {
+        return  Integer.parseInt(leftBound) <= Integer.parseInt(v) && Integer.parseInt(v) <= Integer.parseInt(rightBound);
+    }
 }
