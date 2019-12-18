@@ -112,7 +112,8 @@ public class Proxy {
             commutator.put(msg.getFirst().duplicate(), com);
         }
         else {
-            commutator.get(msg.getFirst().duplicate()).setTime(time);
+            commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
         }
+
     }
 }
