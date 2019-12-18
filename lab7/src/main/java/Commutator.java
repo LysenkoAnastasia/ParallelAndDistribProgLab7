@@ -10,4 +10,8 @@ public class Commutator {
     public String getRightBound() {
         return rightBound;
     }
+
+    public long getTime() {
+        return time;
+    }
 }
