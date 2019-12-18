@@ -4,8 +4,6 @@ import org.zeromq.ZMQ.Socket;
 import sun.net.sdp.SdpSupport;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Proxy {
 
