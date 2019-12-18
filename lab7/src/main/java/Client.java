@@ -35,7 +35,7 @@ public class Client{
                 req.destroy();
             }
         }catch (ZMQException ex) {
-            
+            ex.printStackTrace();
         }
         close();
     }
