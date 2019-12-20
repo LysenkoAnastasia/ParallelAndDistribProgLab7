@@ -77,10 +77,12 @@ public class Proxy {
             String[] data = msg.getLast().toString().split(" ");
             if (data[0].equals("GET")) {
                 for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                    ZFrame cache = c.getKey().duplicate();
-                    msg.addFirst(cache);
-                    msg.send(backend);
-                    System.out.println(backend);
+                    if (c.getValue().intersect(data[1])) {
+                        ZFrame cache = c.getKey().duplicate();
+                        msg.addFirst(cache);
+                        msg.send(backend);
+                        //System.out.println(backend);
+                    }
                 }
             }
             else {
