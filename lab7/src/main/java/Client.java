@@ -25,13 +25,15 @@ public class Client{
                 if (message.contains("GET") || message.contains("PUT")) {
                     ZMsg msg = new ZMsg();
                     msg.addString(message);
+
                     msg.send(socket);
 
                     ZMsg req = ZMsg.recvMsg(socket);
                     if (req == null) {
                         break;
                     }
-                    msg.popString();
+                    //msg.popString();
+                    System.out.println(msg.popString());
                     req.destroy();
                 }
                 else  {
