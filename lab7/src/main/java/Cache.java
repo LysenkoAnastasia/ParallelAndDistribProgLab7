@@ -34,7 +34,7 @@ public class Cache {
             time = System.currentTimeMillis();
 
             while (!Thread.currentThread().isInterrupted()) {
-                items.poll();
+                items.poll(1);
 
                 if(System.currentTimeMillis() - time > 5000) {
                     ZMsg message = new ZMsg();
