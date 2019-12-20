@@ -78,7 +78,7 @@ public class Proxy {
                                         tmp.addFirst(cache);
                                         System.out.println("put: " + tmp);
                                         //msg.addFirst(cache);
-                                        msg.send(backend);
+                                        tmp.send(backend);
                                     }
                                 }
                             }
@@ -99,6 +99,7 @@ public class Proxy {
                     ZMsg msg = ZMsg.recvMsg(backend);
                     if (msg == null)
                         break;
+                    
                     if (msg.getLast().toString().contains("Heartbleed")) {
                         if (!commutator.containsKey(msg.getFirst())) {
                             ZFrame data = msg.getLast();
