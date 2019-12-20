@@ -1,4 +1,4 @@
-Worker.class
 Proxy.class
 Client.class
+Cache.class
 Commutator.class
