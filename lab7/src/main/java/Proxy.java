@@ -22,7 +22,8 @@ public class Proxy {
             backend.setHWM(0);
             frontend.bind("tcp://localhost:5559");
             backend.bind("tcp://localhost:5560");
-            System.out.println("launch and connect broker.");
+           // System.out.println("launch and connect broker.");
+
             ZMQ.Poller items = context.createPoller(2);
             items.register(frontend, ZMQ.Poller.POLLIN);
             items.register(backend, ZMQ.Poller.POLLIN);
@@ -48,6 +49,7 @@ public class Proxy {
                         break;
                     }
                     System.out.println( "MSG: " + msg);
+
                     if (commutator.isEmpty()) {
                         ZMsg error = new ZMsg();
                         error.add(msg.getFirst());
