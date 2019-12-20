@@ -35,6 +35,7 @@ public class Client{
 
                     ZMsg req = ZMsg.recvMsg(socket);
                     if (req == null) {
+                        System.out.println("ER");
                         break;
                     }
                     String s = req.popString();
