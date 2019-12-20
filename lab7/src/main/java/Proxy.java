@@ -110,7 +110,7 @@ public class Proxy {
                 items.close();
             }
 
-        } catch (Exception e) {
+        } catch (ZMQException e) {
             e.printStackTrace();
         }
 
