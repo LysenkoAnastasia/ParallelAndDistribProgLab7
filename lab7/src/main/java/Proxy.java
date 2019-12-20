@@ -14,7 +14,6 @@ public class Proxy {
 
     public static void main(String[] args) {
 
-
         try {
             context = new ZContext();
             Socket frontend = context.createSocket(SocketType.ROUTER);
@@ -32,8 +31,14 @@ public class Proxy {
 
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll(1);
-                if (!commutator.isEmpty() && System.currentTimeMillis()-time > 5000) {
-                    remove();
+                if (!commutator.isEmpty() && (System.currentTimeMillis()-time) > 5000) {
+                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
+                        Map.Entry<ZFrame, Commutator> entry = it.next();
+                        if (Math.abs(entry.getValue().getTime() - time) > 5000*2) {
+                            it.remove();
+                        }
+                    }
+                    //remove();
                 }
                 time = System.currentTimeMillis();
 
