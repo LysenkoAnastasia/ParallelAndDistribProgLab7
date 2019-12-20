@@ -90,6 +90,7 @@ public class Proxy {
                             ZMsg tmp = msg.duplicate();
                             ZFrame cache = c.getKey().duplicate();
                             tmp.addFirst(cache);
+                            System.out.println(tmp);
                             //msg.addFirst(cache);
                             msg.send(backend);
                         }
