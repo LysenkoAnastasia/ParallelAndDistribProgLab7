@@ -17,7 +17,9 @@ public class Client{
             //socket.setIdentity("C".getBytes(ZMQ.CHARSET));
             socket.connect("tcp://localhost:5555");
             while (true) {
+
                 String message = in.nextLine();
+                System.out.println(message);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -33,8 +35,8 @@ public class Client{
                     if (req == null) {
                         break;
                     }
-                    //msg.popString();
-                    System.out.println( "MSG " + msg.popString());
+                    String s = msg.popString();
+                    System.out.println( "MSG " + s);
                     req.destroy();
                 }
                 else  {
