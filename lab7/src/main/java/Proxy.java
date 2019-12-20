@@ -87,8 +87,10 @@ public class Proxy {
                 if (data[0].equals("PUT")) {
                     for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
                         if(c.getValue().intersect(data[1])) {
+                            ZMsg tmp = msg.duplicate();
                             ZFrame cache = c.getKey().duplicate();
-                            msg.addFirst(cache);
+                            tmp.addFirst(cache);
+                            //msg.addFirst(cache);
                             msg.send(backend);
                         }
                     }
