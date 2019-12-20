@@ -20,12 +20,12 @@ public class Client{
             while (true) {
 
                 String message = in.nextLine();
-                System.out.println(message);
-                try {
+                //System.out.println(message);
+                /*try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
                 if (message.contains("GET") || message.contains("PUT")) {
                     System.out.println("get or put");
                     ZMsg msg = new ZMsg();
