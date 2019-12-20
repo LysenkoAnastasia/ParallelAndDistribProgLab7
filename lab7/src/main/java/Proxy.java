@@ -42,7 +42,49 @@ public class Proxy {
                     if (msg == null) {
                         break;
                     }
-                    pollin0(frontend, backend, msg);
+                    System.out.println( "MSG: " + msg);
+                    if (commutator.isEmpty()) {
+                        ZMsg error = new ZMsg();
+                        error.add(msg.getFirst());
+                        error.add("");
+                        error.add("No current");
+                        error.send(frontend);
+                    }
+                    else {
+                        String[] data = msg.getLast().toString().split(" ");
+                        if (data[0].equals("GET")) {
+                            for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+                                if (c.getValue().intersect(data[1])) {
+                                    ZFrame cache = c.getKey().duplicate();
+                                    msg.addFirst(cache);
+                                    msg.send(backend);
+                                    //System.out.println(backend);
+                                }
+                            }
+                        }
+                        else {
+                            if (data[0].equals("PUT")) {
+                                for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+                                    if(c.getValue().intersect(data[1])) {
+                                        ZMsg tmp = msg.duplicate();
+                                        ZFrame cache = c.getKey().duplicate();
+                                        tmp.addFirst(cache);
+                                        System.out.println(tmp);
+                                        //msg.addFirst(cache);
+                                        msg.send(backend);
+                                    }
+                                }
+                            }
+                            else {
+                                ZMsg error = new ZMsg();
+                                error.add(msg.getFirst());
+                                error.add("");
+                                error.send(frontend);
+
+                            }
+                        }
+                    }
+                   // pollin0(frontend, backend, msg);
                 }
 
                 if (items.pollin(1)) {
