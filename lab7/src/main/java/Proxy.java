@@ -161,7 +161,7 @@ public class Proxy {
                             ZMsg tmp = msg.duplicate();
                             ZFrame cache = c.getKey().duplicate();
                             tmp.addFirst(cache);
-                            System.out.println(tmp);
+                            System.out.println("PUT : " + tmp);
                             //msg.addFirst(cache);
                             msg.send(backend);
                         }
@@ -189,6 +189,7 @@ public class Proxy {
                 commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
             }
         } else {
+            System.out.println("Get : " + msg);
             msg.pop();
             msg.send(frontend);
         }
