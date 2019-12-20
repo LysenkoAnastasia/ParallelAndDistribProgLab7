@@ -69,7 +69,7 @@ public class Proxy {
                                         ZMsg tmp = msg.duplicate();
                                         ZFrame cache = c.getKey().duplicate();
                                         tmp.addFirst(cache);
-                                        System.out.println(tmp);
+                                        System.out.println("put: " + tmp);
                                         //msg.addFirst(cache);
                                         msg.send(backend);
                                     }
@@ -79,6 +79,7 @@ public class Proxy {
                                 ZMsg error = new ZMsg();
                                 error.add(msg.getFirst());
                                 error.add("");
+                                error.add("error");
                                 error.send(frontend);
 
                             }
@@ -91,7 +92,20 @@ public class Proxy {
                     ZMsg msg = ZMsg.recvMsg(backend);
                     if (msg == null)
                         break;
-                    pollin1(frontend, backend, msg);
+                    if (msg.getLast().toString().contains("Heartbleed")) {
+                        if (!commutator.containsKey(msg.getFirst())) {
+                            ZFrame data = msg.getLast();
+                            String[] fields = data.toString().split(" ");
+                            Commutator com = new Commutator(fields[1], fields[2], System.currentTimeMillis());
+                            commutator.put(msg.getFirst().duplicate(), com);
+                        } else {
+                            commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
+                        }
+                    } else {
+                        msg.pop();
+                        msg.send(frontend);
+                    }
+                    // pollin1(frontend, backend, msg);
                 }
                 items.close();
             }
