@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Worker {
+public class  {
     private static ZContext context;
     private static Scanner in = new Scanner(System.in);
     private static int leftBound;
