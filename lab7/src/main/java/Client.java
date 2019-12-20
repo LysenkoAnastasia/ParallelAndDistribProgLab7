@@ -34,7 +34,7 @@ public class Client{
                         break;
                     }
                     //msg.popString();
-                    System.out.println(msg.popString());
+                    System.out.println( "MSG " + msg.popString());
                     req.destroy();
                 }
                 else  {
