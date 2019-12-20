@@ -1,3 +1,4 @@
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.zeromq.*;
 
 import java.util.Scanner;
@@ -26,6 +27,7 @@ public class Client{
                     e.printStackTrace();
                 }
                 if (message.contains("GET") || message.contains("PUT")) {
+                    System.out.println("get or put");
                     ZMsg msg = new ZMsg();
                     msg.addString(message);
 
