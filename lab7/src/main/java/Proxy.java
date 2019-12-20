@@ -66,7 +66,7 @@ public class Proxy {
     }
 
     private static void pollin0(Socket frontend, Socket backend, ZMsg msg) {
-        System.out.println(msg);
+        System.out.println( "MSG: " + msg);
         if (commutator.isEmpty()) {
             ZMsg error = new ZMsg();
             error.add(msg.getFirst());
@@ -80,6 +80,7 @@ public class Proxy {
                     ZFrame cache = c.getKey().duplicate();
                     msg.addFirst(cache);
                     msg.send(backend);
+                    System.out.println(backend);
                 }
             }
             else {
