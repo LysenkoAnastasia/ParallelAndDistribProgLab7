@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class Proxy {
 
     private  static ZContext context;
-    private static long time = System.currentTimeMillis();
-    private static HashMap<ZFrame, Commutator> commutator = new HashMap<>();
+    private static long time;
+    private static HashMap<ZFrame, Commutator> commutator;
 
     public static void main(String[] args) {
 
@@ -25,9 +25,11 @@ public class Proxy {
             ZMQ.Poller items = context.createPoller(2);
             items.register(frontend, ZMQ.Poller.POLLIN);
             items.register(backend, ZMQ.Poller.POLLIN);
+            commutator = new HashMap<>();
+            time = System.currentTimeMillis();
 
             while (!Thread.currentThread().isInterrupted()) {
-                items.poll();
+                items.poll(1);
                 if (!commutator.isEmpty() && (System.currentTimeMillis()-time )> 5000) {
                     remove();
                 }
