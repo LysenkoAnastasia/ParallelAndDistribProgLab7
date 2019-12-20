@@ -99,7 +99,7 @@ public class Proxy {
                     ZMsg msg = ZMsg.recvMsg(backend);
                     if (msg == null)
                         break;
-                    
+
                     if (msg.getLast().toString().contains("Heartbleed")) {
                         if (!commutator.containsKey(msg.getFirst())) {
                             ZFrame data = msg.getLast();
@@ -115,7 +115,7 @@ public class Proxy {
                     }
                     // pollin1(frontend, backend, msg);
                 }
-                items.close();
+               // items.close();
             }
 
         } catch (ZMQException e) {
