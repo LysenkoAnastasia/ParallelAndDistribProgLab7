@@ -39,7 +39,7 @@ public class Client{
                         break;
                     }
                     String s = req.popString();
-                    System.out.println( "MSG ");
+                    System.out.println(s);
                     req.destroy();
                 }
                 else  {
