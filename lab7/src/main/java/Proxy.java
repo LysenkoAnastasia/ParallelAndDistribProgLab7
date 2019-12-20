@@ -3,6 +3,8 @@ import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Proxy {
 
@@ -30,7 +32,7 @@ public class Proxy {
 
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll(1);
-                if (!commutator.isEmpty() && (System.currentTimeMillis()-time )> 5000) {
+                if (!commutator.isEmpty() && System.currentTimeMillis()-time > 5000) {
                     remove();
                 }
                 time = System.currentTimeMillis();
@@ -59,13 +61,13 @@ public class Proxy {
     }
 
     private static void remove() {
-        commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
-        /*for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
+        //commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
+        for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
             Map.Entry<ZFrame, Commutator> entry = it.next();
             if (Math.abs(entry.getValue().getTime() - time) > 5000*2) {
                 it.remove();
             }
-        }*/
+        }
     }
 
     private static void pollin0(Socket frontend, Socket backend, ZMsg msg) {
