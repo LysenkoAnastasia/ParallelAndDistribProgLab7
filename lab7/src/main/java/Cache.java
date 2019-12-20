@@ -64,7 +64,7 @@ public class Cache {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (ZMQException e) {
             e.printStackTrace();
         }
     }
