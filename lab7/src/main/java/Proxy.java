@@ -3,68 +3,80 @@ import org.zeromq.*;
 import org.zeromq.ZMQ.Socket;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Proxy {
 
-    private  static ZContext context;
-    private static long time;
-    private static HashMap<ZFrame, Commutator> commutator;
+    private ZContext context;
+    private long time;
+    private HashMap<ZFrame, Commutator> commutator;
+    private Socket frontend;
+    private Socket backend;
+    private static String DELIM = " ";
+    private static  int EPSILON_TIME = 5000;
 
     public static void main(String[] args) {
 
         try {
-            context = new ZContext();
-            Socket frontend = context.createSocket(SocketType.ROUTER);
-            Socket backend = context.createSocket(SocketType.ROUTER);
-            frontend.setHWM(0);
-            backend.setHWM(0);
-            frontend.bind("tcp://localhost:5559");
-            backend.bind("tcp://localhost:5560");
-
-            ZMQ.Poller items = context.createPoller(2);
-            items.register(frontend, ZMQ.Poller.POLLIN);
-            items.register(backend, ZMQ.Poller.POLLIN);
-            commutator = new HashMap<>();
-            time = System.currentTimeMillis();
-
-            while (!Thread.currentThread().isInterrupted()) {
-                items.poll(1);
-                if (!commutator.isEmpty() && (System.currentTimeMillis()-time) > 5000) {
-                   remove();
-                }
-                time = System.currentTimeMillis();
-
-                if (items.pollin(0)) {
-                    ZMsg msg = ZMsg.recvMsg(frontend);
-                    if (msg == null) {
-                        break;
-                    }
-                    pollin0(frontend, backend, msg);
-                }
-
-                if (items.pollin(1)) {
-                    ZMsg msg = ZMsg.recvMsg(backend);
-                    if (msg == null)
-                        break;
-                     pollin1(frontend, backend, msg);
-                }
-            }
+            ZContext context = new ZContext();
+            Proxy proxy = new Proxy(context);
+            proxy.bind();
+            proxy.handle();
 
         } catch (ZMQException e) {
             e.printStackTrace();
         }
-
     }
 
-    private static void remove() {
-        commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
+    public Proxy(ZContext context) {
+        this.context = context;
+        this.frontend = context.createSocket(SocketType.ROUTER);
+        this.backend = context.createSocket(SocketType.ROUTER);
+        frontend.setHWM(0);
+        backend.setHWM(0);
     }
 
-    private static void pollin0(Socket frontend, Socket backend, ZMsg msg) {
-        System.out.println( "MSG: " + msg);
+    public void bind() {
+        frontend.bind("tcp://localhost:5559");
+        backend.bind("tcp://localhost:5560");
+    }
 
+    private void handle() {
+        ZMQ.Poller items = context.createPoller(2);
+        items.register(frontend, ZMQ.Poller.POLLIN);
+        items.register(backend, ZMQ.Poller.POLLIN);
+        commutator = new HashMap<>();
+        time = System.currentTimeMillis();
+
+        while (!Thread.currentThread().isInterrupted()) {
+            items.poll(1);
+            if (!commutator.isEmpty() && (System.currentTimeMillis()-time) > EPSILON_TIME) {
+                remove();
+            }
+            time = System.currentTimeMillis();
+
+            if (items.pollin(0)) {
+                ZMsg msg = ZMsg.recvMsg(frontend);
+                if (msg == null) {
+                    break;
+                }
+                handleClientPollin(msg);
+            }
+
+            if (items.pollin(1)) {
+                ZMsg msg = ZMsg.recvMsg(backend);
+                if (msg == null)
+                    break;
+                handleDealerPollin(msg);
+            }
+        }
+    }
+
+    private void remove() {
+        commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > EPSILON_TIME * 2);
+    }
+
+    private void handleClientPollin(ZMsg msg) {
+        //System.out.println( "MSG: " + msg);
         if (commutator.isEmpty()) {
             ZMsg error = new ZMsg();
             error.add(msg.getFirst());
@@ -73,13 +85,13 @@ public class Proxy {
             error.send(frontend);
         }
         else {
-            String[] data = msg.getLast().toString().split(" ");
+            String[] data = msg.getLast().toString().split(DELIM);
             if (data[0].equals("GET")) {
-                get(data, backend, msg);
+                receiveGet(data, backend, msg);
             }
             else {
                 if (data[0].equals("PUT")) {
-                   put(data, backend, msg);
+                   receivePut(data, backend, msg);
                 }
                 else {
                     ZMsg error = new ZMsg();
@@ -93,11 +105,11 @@ public class Proxy {
         }
     }
 
-    private static void pollin1(Socket frontend, Socket backend, ZMsg msg){
+    private void handleDealerPollin(ZMsg msg){
         if (msg.getLast().toString().contains("Heartbleed")) {
             if (!commutator.containsKey(msg.getFirst())) {
                 ZFrame data = msg.getLast();
-                String[] fields = data.toString().split(" ");
+                String[] fields = data.toString().split(DELIM);
                 Commutator com = new Commutator(fields[1], fields[2], System.currentTimeMillis());
                 commutator.put(msg.getFirst().duplicate(), com);
             } else {
@@ -109,7 +121,7 @@ public class Proxy {
         }
     }
 
-    private static void get(String[] data, Socket backend, ZMsg msg) {
+    private void receiveGet(String[] data, Socket backend, ZMsg msg) {
         for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
             if (c.getValue().intersect(data[1])) {
                 ZFrame cache = c.getKey().duplicate();
@@ -119,7 +131,7 @@ public class Proxy {
         }
     }
 
-    private static void put(String[] data, Socket backend, ZMsg msg) {
+    private void receivePut(String[] data, Socket backend, ZMsg msg) {
         for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
             if(c.getValue().intersect(data[1])) {
                 ZMsg tmp = msg.duplicate();
