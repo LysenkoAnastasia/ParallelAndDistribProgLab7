@@ -5,31 +5,27 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Cache {
-    private static ZContext context;
     private static Scanner in = new Scanner(System.in);
-    private static int leftBound;
-    private static int rightBound;
     private static HashMap<Integer, String> cache = new HashMap<>();
-    private static long time;
 
     public static void main(String[] args) {
 
-        leftBound = in.nextInt();
-        rightBound = in.nextInt();
+        int leftBound = in.nextInt();
+        int rightBound = in.nextInt();
 
         for (int i = leftBound; i <= rightBound; i++) {
             cache.put(i, Integer.toString(i));
         }
 
         try {
-            context = new ZContext();
+            ZContext context = new ZContext();
             Socket worker = context.createSocket(SocketType.DEALER);
             worker.setHWM(0);
             worker.setIdentity("W".getBytes(ZMQ.CHARSET));
             worker.connect("tcp://localhost:5556");
             ZMQ.Poller items = context.createPoller(1);
             items.register(worker, ZMQ.Poller.POLLIN);
-            time = System.currentTimeMillis();
+            long time = System.currentTimeMillis();
 
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll(1);
