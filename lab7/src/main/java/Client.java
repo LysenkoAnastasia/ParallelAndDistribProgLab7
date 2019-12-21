@@ -28,7 +28,6 @@ public class Client{
                     if (req == null) {
                         break;
                     }
-                    System.out.println("look");
                     String s = req.popString();
                     System.out.println("IN : " + s);
                     req.destroy();
