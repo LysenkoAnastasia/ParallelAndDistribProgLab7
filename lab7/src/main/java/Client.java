@@ -15,31 +15,23 @@ public class Client{
             context = new ZContext();
             socket = context.createSocket(SocketType.REQ);
             socket.setHWM(0);
-            //socket.setIdentity("C".getBytes(ZMQ.CHARSET));
             socket.connect("tcp://localhost:5555");
             while (true) {
 
                 String message = in.nextLine();
-                //System.out.println(message);
-                /*try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
                 if (message.contains("GET") || message.contains("PUT")) {
-                    System.out.println("get or put");
+                    //System.out.println("get or put");
                     ZMsg msg = new ZMsg();
                     msg.addString(message);
-
                     msg.send(socket);
 
                     ZMsg req = ZMsg.recvMsg(socket);
                     if (req == null) {
-                        System.out.println("ER");
                         break;
                     }
+                    System.out.println("look");
                     String s = req.popString();
-                    System.out.println(s);
+                    System.out.println("IN : " + s);
                     req.destroy();
                 }
                 else  {
