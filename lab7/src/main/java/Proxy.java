@@ -33,12 +33,7 @@ public class Proxy {
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll(1);
                 if (!commutator.isEmpty() && (System.currentTimeMillis()-time) > 5000) {
-                    for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
-                        Map.Entry<ZFrame, Commutator> entry = it.next();
-                        if (Math.abs(entry.getValue().getTime() - time) > 5000*2) {
-                            it.remove();
-                        }
-                    }
+                    commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
                     //remove();
                 }
                 time = System.currentTimeMillis();
