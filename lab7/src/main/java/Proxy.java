@@ -82,26 +82,11 @@ public class Proxy {
         else {
             String[] data = msg.getLast().toString().split(" ");
             if (data[0].equals("GET")) {
-                for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                    if (c.getValue().intersect(data[1])) {
-                        ZFrame cache = c.getKey().duplicate();
-                        msg.addFirst(cache);
-                        msg.send(backend);
-                    }
-                }
+                get(data, backend, msg);
             }
             else {
                 if (data[0].equals("PUT")) {
-                    for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                        if(c.getValue().intersect(data[1])) {
-                            ZMsg tmp = msg.duplicate();
-                            ZFrame cache = c.getKey().duplicate();
-                            tmp.addFirst(cache);
-                            System.out.println("put: " + tmp);
-                            //msg.addFirst(cache);
-                            tmp.send(backend);
-                        }
-                    }
+                   put(data, backend, msg);
                 }
                 else {
                     ZMsg error = new ZMsg();
@@ -128,6 +113,28 @@ public class Proxy {
         } else {
             msg.pop();
             msg.send(frontend);
+        }
+    }
+
+    private static void get(String[] data, Socket backend, ZMsg msg) {
+        for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+            if (c.getValue().intersect(data[1])) {
+                ZFrame cache = c.getKey().duplicate();
+                msg.addFirst(cache);
+                msg.send(backend);
+            }
+        }
+    }
+
+    private static void put(String[] data, Socket backend, ZMsg msg) {
+        for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
+            if(c.getValue().intersect(data[1])) {
+                ZMsg tmp = msg.duplicate();
+                ZFrame cache = c.getKey().duplicate();
+                tmp.addFirst(cache);
+                System.out.println("put: " + tmp);
+                tmp.send(backend);
+            }
         }
     }
 }
