@@ -22,7 +22,6 @@ public class Proxy {
             backend.setHWM(0);
             frontend.bind("tcp://localhost:5559");
             backend.bind("tcp://localhost:5560");
-           // System.out.println("launch and connect broker.");
 
             ZMQ.Poller items = context.createPoller(2);
             items.register(frontend, ZMQ.Poller.POLLIN);
@@ -61,12 +60,6 @@ public class Proxy {
 
     private static void remove() {
         commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
-        /* for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
-            Map.Entry<ZFrame, Commutator> entry = it.next();
-            if (Math.abs(entry.getValue().getTime() - time) > 5000*2) {
-                it.remove();
-            }
-        }*/
     }
 
     private static void pollin0(Socket frontend, Socket backend, ZMsg msg) {
