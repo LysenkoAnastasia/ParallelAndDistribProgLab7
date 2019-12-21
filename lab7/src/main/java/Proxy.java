@@ -51,7 +51,6 @@ public class Proxy {
                         break;
                      pollin1(frontend, backend, msg);
                 }
-               // items.close();
             }
 
         } catch (ZMQException e) {
@@ -88,7 +87,6 @@ public class Proxy {
                         ZFrame cache = c.getKey().duplicate();
                         msg.addFirst(cache);
                         msg.send(backend);
-                        //System.out.println(backend);
                     }
                 }
             }
