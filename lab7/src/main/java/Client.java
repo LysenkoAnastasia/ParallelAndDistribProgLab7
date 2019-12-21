@@ -20,7 +20,6 @@ public class Client{
 
                 String message = in.nextLine();
                 if (message.contains("GET") || message.contains("PUT")) {
-                    //System.out.println("get or put");
                     ZMsg msg = new ZMsg();
                     msg.addString(message);
                     msg.send(socket);

@@ -67,6 +67,4 @@ public class Cache {
         }
     }
 
-    public void close() {
-    }
 }

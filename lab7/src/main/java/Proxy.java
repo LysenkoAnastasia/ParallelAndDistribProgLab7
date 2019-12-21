@@ -33,8 +33,7 @@ public class Proxy {
             while (!Thread.currentThread().isInterrupted()) {
                 items.poll(1);
                 if (!commutator.isEmpty() && (System.currentTimeMillis()-time) > 5000) {
-                    commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
-                    //remove();
+                   remove();
                 }
                 time = System.currentTimeMillis();
 
@@ -43,72 +42,14 @@ public class Proxy {
                     if (msg == null) {
                         break;
                     }
-                    System.out.println( "MSG: " + msg);
-
-                    if (commutator.isEmpty()) {
-                        ZMsg error = new ZMsg();
-                        error.add(msg.getFirst());
-                        error.add("");
-                        error.add("No current");
-                        error.send(frontend);
-                    }
-                    else {
-                        String[] data = msg.getLast().toString().split(" ");
-                        if (data[0].equals("GET")) {
-                            for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                                if (c.getValue().intersect(data[1])) {
-                                    ZFrame cache = c.getKey().duplicate();
-                                    msg.addFirst(cache);
-                                    msg.send(backend);
-                                    //System.out.println(backend);
-                                }
-                            }
-                        }
-                        else {
-                            if (data[0].equals("PUT")) {
-                                for (HashMap.Entry<ZFrame, Commutator> c : commutator.entrySet()) {
-                                    if(c.getValue().intersect(data[1])) {
-                                        ZMsg tmp = msg.duplicate();
-                                        ZFrame cache = c.getKey().duplicate();
-                                        tmp.addFirst(cache);
-                                        System.out.println("put: " + tmp);
-                                        //msg.addFirst(cache);
-                                        tmp.send(backend);
-                                    }
-                                }
-                            }
-                            else {
-                                ZMsg error = new ZMsg();
-                                error.add(msg.getFirst());
-                                error.add("");
-                                error.add("error");
-                                error.send(frontend);
-
-                            }
-                        }
-                    }
-                   // pollin0(frontend, backend, msg);
+                    pollin0(frontend, backend, msg);
                 }
 
                 if (items.pollin(1)) {
                     ZMsg msg = ZMsg.recvMsg(backend);
                     if (msg == null)
                         break;
-
-                    if (msg.getLast().toString().contains("Heartbleed")) {
-                        if (!commutator.containsKey(msg.getFirst())) {
-                            ZFrame data = msg.getLast();
-                            String[] fields = data.toString().split(" ");
-                            Commutator com = new Commutator(fields[1], fields[2], System.currentTimeMillis());
-                            commutator.put(msg.getFirst().duplicate(), com);
-                        } else {
-                            commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
-                        }
-                    } else {
-                        msg.pop();
-                        msg.send(frontend);
-                    }
-                    // pollin1(frontend, backend, msg);
+                     pollin1(frontend, backend, msg);
                 }
                // items.close();
             }
@@ -120,20 +61,22 @@ public class Proxy {
     }
 
     private static void remove() {
-        //commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
-        for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
+        commutator.entrySet().removeIf(entry -> Math.abs(entry.getValue().getTime() - time) > 5000 * 2);
+        /* for (Iterator<Map.Entry<ZFrame, Commutator>> it = commutator.entrySet().iterator(); it.hasNext();) {
             Map.Entry<ZFrame, Commutator> entry = it.next();
             if (Math.abs(entry.getValue().getTime() - time) > 5000*2) {
                 it.remove();
             }
-        }
+        }*/
     }
 
     private static void pollin0(Socket frontend, Socket backend, ZMsg msg) {
         System.out.println( "MSG: " + msg);
+
         if (commutator.isEmpty()) {
             ZMsg error = new ZMsg();
             error.add(msg.getFirst());
+            error.add("");
             error.add("No current");
             error.send(frontend);
         }
@@ -156,9 +99,9 @@ public class Proxy {
                             ZMsg tmp = msg.duplicate();
                             ZFrame cache = c.getKey().duplicate();
                             tmp.addFirst(cache);
-                            System.out.println("PUT : " + tmp);
+                            System.out.println("put: " + tmp);
                             //msg.addFirst(cache);
-                            msg.send(backend);
+                            tmp.send(backend);
                         }
                     }
                 }
@@ -166,6 +109,7 @@ public class Proxy {
                     ZMsg error = new ZMsg();
                     error.add(msg.getFirst());
                     error.add("");
+                    error.add("error");
                     error.send(frontend);
 
                 }
@@ -184,10 +128,8 @@ public class Proxy {
                 commutator.get(msg.getFirst().duplicate()).setTime(System.currentTimeMillis());
             }
         } else {
-            System.out.println("Get : " + msg);
             msg.pop();
             msg.send(frontend);
         }
-
     }
 }
