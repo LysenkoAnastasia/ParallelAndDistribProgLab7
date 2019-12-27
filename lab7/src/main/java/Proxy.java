@@ -5,7 +5,6 @@ import org.zeromq.ZMQ.Socket;
 import java.util.HashMap;
 
 public class Proxy {
-
     private ZContext context;
     private long time;
     private HashMap<ZFrame, Commutator> commutator;
