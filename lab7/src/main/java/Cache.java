@@ -23,7 +23,7 @@ public class Cache {
         for (int i = leftBound; i <= rightBound; i++) {
             cache.put(i, Integer.toString(i));
         }
-        worker = context.createSocket(SocketType.DEALER);
+        this.worker = context.createSocket(SocketType.DEALER);
         worker.setHWM(0);
     }
 
@@ -44,7 +44,6 @@ public class Cache {
         long time = System.currentTimeMillis();
         while (!Thread.currentThread().isInterrupted()) {
             items.poll(1);
-
             if(System.currentTimeMillis() - time > EPSILON_TIME) {
                 ZMsg message = new ZMsg();
                 message.addLast("Heartbleed" + " " +
@@ -59,7 +58,7 @@ public class Cache {
     }
 
     private void connect() {
-        worker.connect("tcp://localhost:5556");
+        worker.connect("tcp://localhost:5560");
         items = context.createPoller(1);
         items.register(worker, ZMQ.Poller.POLLIN);
     }
@@ -82,7 +81,5 @@ public class Cache {
             cache.put(pos, swap);
             msg.send(worker);
         }
-
     }
-
 }

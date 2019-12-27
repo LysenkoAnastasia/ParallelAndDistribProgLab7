@@ -36,8 +36,8 @@ public class Proxy {
     }
 
     public void bind() {
-        frontend.bind("tcp://localhost:5579");
-        backend.bind("tcp://localhost:5580");
+        frontend.bind("tcp://localhost:5556");
+        backend.bind("tcp://localhost:5560");
     }
 
     private void handle() {

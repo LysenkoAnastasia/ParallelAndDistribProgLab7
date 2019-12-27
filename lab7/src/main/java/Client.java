@@ -1,4 +1,3 @@
-
 import org.zeromq.*;
 
 import java.util.Scanner;
@@ -25,30 +24,26 @@ public class Client{
     public Client(ZContext context) {
         this.context = context;
         this.socket = context.createSocket(SocketType.REQ);
-        socket.setHWM(0);
+        this.socket.setHWM(0);
     }
 
     public void connect() {
-        socket.connect("tcp://localhost:5555");
+        socket.connect("tcp://localhost:5556");
     }
 
     public void handle() {
         while (true) {
-
             String message = in.nextLine();
             if (message.contains("GET") || message.contains("PUT")) {
-                //System.out.println("IN LOOP");
                 ZMsg msg = new ZMsg();
                 msg.addString(message);
                 msg.send(socket);
-
                 ZMsg req = ZMsg.recvMsg(socket);
                 if (req == null) {
-                   // System.out.println("BREAK");
                     break;
                 }
                 String s = req.popString();
-                System.out.println("IN : " + s);
+                System.out.println("MSG: " + s);
                 req.destroy();
             }
             else  {
