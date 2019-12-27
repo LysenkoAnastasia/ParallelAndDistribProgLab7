@@ -76,7 +76,7 @@ public class Proxy {
     }
 
     private void handleClientPollin(ZMsg msg) {
-        //System.out.println( "MSG: " + msg);
+        System.out.println( "MSG: " + msg);
         if (commutator.isEmpty()) {
             ZMsg error = new ZMsg();
             error.add(msg.getFirst());
