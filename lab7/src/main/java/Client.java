@@ -11,7 +11,6 @@ public class Client{
         System.out.println("connect");
         try {
             ZContext context = new ZContext();
-            //System.out.println("BEFORE");
             Client client = new Client(context);
             client.connect();
             client.handle();
